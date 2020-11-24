@@ -40,7 +40,7 @@ class MovieDao:
         return returnArray
 
     def convertToDict(self, result):
-        colnames = ['title', 'director', 'releaseyear', 'tomatoescore']
+        colnames = ['movieid', 'title', 'director', 'releaseyear', 'tomatoescore']
         movie = {}
 
         if result:
@@ -77,6 +77,7 @@ class MovieDao:
         sql = 'DELETE FROM movies WHERE movieid = %s'
         values = [movieid]
         cursor.execute(sql, values)
+        self.db.commit()
         
         return {}
 
