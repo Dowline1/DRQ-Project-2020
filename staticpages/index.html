@@ -214,10 +214,10 @@
                 }
 
             function populateTable(){
-                host = window.location.origin
+                //host = window.location.origin
                $.ajax({
-                   //url:'http://127.0.0.1:5000/movies',
-                   url:host+"/movies",
+                   url:'http://127.0.0.1:5000/movies',
+                   //url:host+"/movies",
                    method:'GET',
                    datatype:'JSON',
                    success:function(results){

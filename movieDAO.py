@@ -24,6 +24,7 @@ class MovieDao:
         ]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return cursor.lastrowid
 
     def getAll(self):
@@ -38,6 +39,7 @@ class MovieDao:
             
             returnArray.append(resultAsDict)
 
+        cursor.close()
         return returnArray
 
     def convertToDict(self, result):
@@ -56,7 +58,8 @@ class MovieDao:
         values = [movieid]
         cursor.execute(sql, values)
         result = cursor.fetchone()
-        
+
+        cursor.close()        
         return self.convertToDict(result)
 
     def update(self, movie):
@@ -71,6 +74,7 @@ class MovieDao:
         ]
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
         return movie
 
     def delete(self, movieid):
@@ -80,6 +84,7 @@ class MovieDao:
         cursor.execute(sql, values)
         self.db.commit()
         
+        cursor.close()
         return {}
 
 
