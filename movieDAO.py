@@ -4,17 +4,23 @@ import dbconfig as cfg
 class MovieDao:
     db = ""
 
-    def __init__(self):
+    def connectToDB(self):
         self.db = mysql.connector.connect(
-            host=cfg.mysql['host'],
-            user=cfg.mysql['username'],
-            password=cfg.mysql['password'],
-            database=cfg.mysql['database']
+            host=       cfg.mysql['host'],
+            user=       cfg.mysql['username'],
+            password=   cfg.mysql['password'],
+            database=   cfg.mysql['database']
         )
-        print("Connected")
+    def __init__(self): 
+        self.connectToDB()
+    
+    def getCursor(self):
+        if not self.db.is_connected():
+            self.connectToDB()
+        return self.db.cursor()
 
     def create(self, movie):
-        cursor = self.db.cursor()
+        cursor = self.getCursor()
         sql = "INSERT INTO movies (title, director, releaseyear, tomatoescore) values (%s,%s,%s,%s)"
         values = [
             movie['title'],
@@ -28,7 +34,7 @@ class MovieDao:
         return cursor.lastrowid
 
     def getAll(self):
-        cursor = self.db.cursor()
+        cursor = self.getCursor()
         sql = 'SELECT * FROM movies'
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -53,7 +59,7 @@ class MovieDao:
         return movie
 
     def findById(self, movieid):
-        cursor = self.db.cursor()
+        cursor = self.getCursor()
         sql = 'SELECT * FROM movies WHERE movieid = %s'
         values = [movieid]
         cursor.execute(sql, values)
@@ -63,7 +69,7 @@ class MovieDao:
         return self.convertToDict(result)
 
     def update(self, movie):
-        cursor = self.db.cursor()
+        cursor = self.getCursor()
         sql = "UPDATE movies SET title = %s, director = %s, releaseyear = %s, tomatoescore = %s WHERE movieid = %s"
         values = [
             movie['title'],
@@ -78,7 +84,7 @@ class MovieDao:
         return movie
 
     def delete(self, movieid):
-        cursor = self.db.cursor()
+        cursor = self.getCursor()
         sql = 'DELETE FROM movies WHERE movieid = %s'
         values = [movieid]
         cursor.execute(sql, values)
