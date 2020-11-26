@@ -1,5 +1,6 @@
 from flask import Flask, url_for, request, redirect, abort, jsonify
 from movieDAO import movieDao
+from castDAO import castDao
 
 app = Flask(__name__, static_url_path = '', static_folder = 'staticpages')
 
@@ -7,19 +8,19 @@ app = Flask(__name__, static_url_path = '', static_folder = 'staticpages')
 def index():
     return "Hello"
 
-# Get All
+# Movie Get All
 @app.route('/movies')
-def getAll():
+def moviegetAll():
     return jsonify(movieDao.getAll())
 
-# Find by ID
+# Movie Find by ID
 @app.route('/movies/<int:movieid>')
-def findById(movieid):
+def moviefindById(movieid):
     return jsonify(movieDao.findById(movieid))
 
-# Create
+# Movie Create
 @app.route('/movies', methods = ['POST'])
-def create():
+def moviecreate():
     if not request.json:
         abort(400)
 
@@ -31,9 +32,9 @@ def create():
     }
     return jsonify(movieDao.create(movie))
 
-# Update
+# Movie Update
 @app.route('/movies/<int:movieid>', methods = ['PUT'])
-def update(movieid):
+def movieupdate(movieid):
     foundmovie = movieDao.findById(movieid)
     if foundmovie == {}:
         return jsonify({}), 404
@@ -50,12 +51,65 @@ def update(movieid):
 
     return jsonify(currentMovie)
     
-# Delete
+# Movie Delete
 @app.route('/movies/<int:movieid>', methods = ['DELETE'])
-def delete(movieid):
+def moviedelete(movieid):
     movieDao.delete(movieid)
 
     return jsonify({"Done": True})
+
+
+
+
+
+# Cast Get All
+@app.route('/cast')
+def castgetAll():
+    return jsonify(castDao.getAll())
+
+# Cast Find by ID
+@app.route('/cast/<int:castid>')
+def castfindById(castid):
+    return jsonify(castDao.findById(castid))
+
+# Cast Create
+@app.route('/cast', methods = ['POST'])
+def castcreate():
+    if not request.json:
+        abort(400)
+
+    cast = {
+        "movieid": request.json["movieid"],
+        "actor": request.json["actor"],
+        "rating": request.json["rating"],
+    }
+    return jsonify(castDao.create(cast))
+
+# Cast Update
+@app.route('/cast/<int:castid>', methods = ['PUT'])
+def castupdate(castid):
+    foundcast = castDao.findById(castid)
+    if foundcast == {}:
+        return jsonify({}), 404
+    currentCast = foundcast
+    if 'movieid' in request.json:
+        currentCast['movieid'] = request.json['movieid']
+    if 'actor' in request.json:
+        currentCast['actor'] = request.json['actor']
+    if 'rating' in request.json:
+        currentCast['rating'] = request.json['rating']
+    castDao.update(currentCast)
+
+    return jsonify(currentCast)
+    
+# Cast Delete
+@app.route('/cast/<int:castid>', methods = ['DELETE'])
+def castdelete(castid):
+    castDao.delete(castid)
+
+    return jsonify({"Done": True})
+
+
 
 
 if __name__ == "__main__":

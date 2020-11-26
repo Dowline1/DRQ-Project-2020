@@ -7,12 +7,12 @@
 
     </head>
     <body>
-        <div id="create-update" style="display:none">
+        <div id="movie-create-update" style="display:none">
             <h2>create-edit</h2>
-            <table id="createUpdateForm">
+            <table id="movieCreateUpdateForm">
                 <tr>
                     <td>Movie ID</td>
-                    <td><input type="text" name="movieid" id="idInput"></td>
+                    <td><input type="text" name="moviemovieid" id="movieIdInput"></td>
                 </tr>
                 <tr>
                     <td>Title</td>
@@ -32,50 +32,140 @@
                 </tr>
                 <tr>
                     <td></td><td>
-                        <button id="create-button" onclick="doCreate()">Create</button>     
-                        <button id="update-button" onclick="doUpdate()">update</button>
+                        <button id="movie-create-button" onclick="movieDoCreate()">Create</button>     
+                        <button id="movie-update-button" onclick="movieDoUpdate()">Update</button>
                     </td>
                 </tr>
             </table>
         </div>
-        <div id="display">
-            <h2>Movies</h2>
-            <button onClick="showCreate()">Create</button>
+
+        <div id="cast-create-update" style="display:none">
+            <h2>create-edit</h2>
+            <table id="castCreateUpdateForm">
+                <tr>
+                    <td>Cast ID</td>
+                    <td><input type="text" name="castid" id="castIdInput"></td>
+                </tr>
+                <tr>
+                    <td>Movie ID</td>
+                    <td><input type="number" name="castmovieid"></td>
+                </tr>
+                <tr>
+                    <td>Actor</td>
+                    <td><input type="text" name="actor"></td>
+                </tr>
+                <tr>    
+                    <td>Rating</td>
+                    <td><input type="number" name="rating"></td>
+                </tr>
+                <tr>
+                    <td></td><td>
+                        <button id="cast-create-button" onclick="castDoCreate()">Create</button>     
+                        <button id="cast-update-button" onclick="castDoUpdate()">Update</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="databaseMenu">
+            <button onclick="showMovies()">Movies Database</button>
+            <button onclick="showCast()">Cast Dastabase</button>
+        </div>
+        
+        <div id="movieDisplay" style="display:none">
+            <h2 id="movieHeader">Movies</h2>
+            <button onClick="movieShowCreate()" id="movieCreateButton">Create Movie</button>
             <table id="movieTable" class="table">
-                <thead class="thead-dark">
+                <thead id="movieTableHeader" class="thead-dark">
                     <tr>
                         <th>Movie ID</th><th>Title</th><th>Director</th><th>Release Year</th><th>Tomatoe Score</th><th></th><th></th>
                     </tr>
                 </thead>
                 
             </table>
+        </div>
+
+        <div id="castDisplay" style="display:none">
+        <h2 id="castHeader">Cast</h2>
+        <button onClick="castShowCreate()" id="castCreateButton">Create</button>
+        <table id="castTable" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Cast ID</th><th>Movie ID</th><th>Actor</th><th>Rating</th><th></th><th></th>
+                </tr>
+            </thead>
+            
+        </table>
 
         </div>
 
         <script>
-            function showCreate(){
-                document.getElementById('display').style.display = "none"
-                document.getElementById('update-button').style.display = "none"
-                document.getElementById('create-button').style.display = "block"
-                document.getElementById('create-update').style.display = "block"
+            // Displays only Movie Information
+            function showMovies(){
+                document.getElementById('movieDisplay').style.display = "block"
+                document.getElementById('castDisplay').style.display = "none"
+            }
+
+            // Displays only Cast Information
+            function showCast(){
+                document.getElementById('movieDisplay').style.display = "none"
+                document.getElementById('castDisplay').style.display = "block"
+            }
+
+            function movieShowCreate(){
+                document.getElementById('movieDisplay').style.display = "none"
+                document.getElementById('movie-update-button').style.display = "none"
+                document.getElementById('movie-create-button').style.display = "block"
+                document.getElementById('movie-create-update').style.display = "block"
+                document.getElementById('databaseMenu').style.display = "none"
                 
                 // Disables MovieID field and populates Comment in Field
-                var form = document.getElementById('createUpdateForm')
-                form.querySelector('input[name="movieid"]').disabled=true
-                form.querySelector('input[name="movieid"]').value = 'System-Created'
+                var form = document.getElementById('movieCreateUpdateForm')
+                form.querySelector('input[name="moviemovieid"]').disabled=true
+                form.querySelector('input[name="moviemovieid"]').value = 'System-Created'
 
             }
-            function showUpdate(thisElem){
+
+            function castShowCreate(){
+                document.getElementById('castDisplay').style.display = "none"
+                document.getElementById('cast-update-button').style.display = "none"
+                document.getElementById('cast-create-button').style.display = "block"
+                document.getElementById('cast-create-update').style.display = "block"
+                document.getElementById('databaseMenu').style.display = "none"
+                
+                // Disables MovieID field and populates Comment in Field
+                var form = document.getElementById('castCreateUpdateForm')
+                form.querySelector('input[name="castid"]').disabled=true
+                form.querySelector('input[name="castid"]').value = 'System-Created'
+
+            }
+
+            function movieShowUpdate(thisElem){
                 var rowElement = thisElem.parentNode.parentNode;
                 movie = readMovieFromRow(rowElement)
-                populateForm(movie)
+                moviePopulateForm(movie)
 
-                document.getElementById('display').style.display = "none"
-                document.getElementById('update-button').style.display = "block"
-                document.getElementById('create-button').style.display = "none"
-                document.getElementById('create-update').style.display = "block"
+                document.getElementById('movieDisplay').style.display = "none"
+                document.getElementById('databaseMenu').style.display = "none"
+                document.getElementById('movie-update-button').style.display = "block"
+                document.getElementById('movie-create-button').style.display = "none"
+                document.getElementById('movie-create-update').style.display = "block"
 
             }
+
+            function castShowUpdate(thisElem){
+                var rowElement = thisElem.parentNode.parentNode;
+                movie = readCastFromRow(rowElement)
+                castPopulateForm(movie)
+
+                document.getElementById('castDisplay').style.display = "none"
+                document.getElementById('databaseMenu').style.display = "none"
+                document.getElementById('cast-update-button').style.display = "block"
+                document.getElementById('cast-create-button').style.display = "none"
+                document.getElementById('cast-create-update').style.display = "block"
+
+            }
+
             function readMovieFromRow(rowElement){
                 movie = {}
                 movie.movieid = rowElement.getAttribute("id");
@@ -87,24 +177,49 @@
                 return movie
                 
             }
-            function populateForm(movie){
-                var form = document.getElementById('createUpdateForm')
+
+            function readCastFromRow(rowElement){
+                cast = {}
+                cast.castid = rowElement.getAttribute("id");
+                cast.movieid = rowElement.cells[1].firstChild.textContent
+                cast.actor = rowElement.cells[2].firstChild.textContent
+                cast.rating = rowElement.cells[3].firstChild.textContent
+
+                return cast
+                
+            }
+
+            function moviePopulateForm(movie){
+                var form = document.getElementById('movieCreateUpdateForm')
 
                 
-                form.querySelector('input[name="movieid"]').value = movie.movieid
-                form.querySelector('input[name="movieid"]').disabled=true
+                form.querySelector('input[name="moviemovieid"]').value = movie.movieid
+                form.querySelector('input[name="moviemovieid"]').disabled=true
                 
                 form.querySelector('input[name="title"]').value = movie.title
                 form.querySelector('input[name="director"]').value = movie.director
                 form.querySelector('input[name="releaseyear"]').value = movie.releaseyear
                 form.querySelector('input[name="tomatoescore"]').value = movie.tomatoescore      
             }
-            function clearForm() {
-                    var form = document.getElementById('createUpdateForm')
+
+            function castPopulateForm(cast){
+                var form = document.getElementById('castCreateUpdateForm')
+
+                
+                form.querySelector('input[name="castid"]').value = cast.castid
+                form.querySelector('input[name="castid"]').disabled=true
+                
+                form.querySelector('input[name="castmovieid"]').value = cast.movieid
+                form.querySelector('input[name="actor"]').value = cast.actor
+                form.querySelector('input[name="rating"]').value = cast.rating    
+            }
+
+            function movieClearForm() {
+                    var form = document.getElementById('movieCreateUpdateForm')
 
 
-                    form.querySelector('input[name="movieid"]').value = ''
-                    form.querySelector('input[name="movieid"]').disabled = false
+                    form.querySelector('input[name="moviemovieid"]').value = ''
+                    form.querySelector('input[name="moviemovieid"]').disabled = false
 
                     form.querySelector('input[name="title"]').value = ''
                     form.querySelector('input[name="director"]').value = ''
@@ -112,8 +227,19 @@
                     form.querySelector('input[name="tomatoescore"]').value = ''
                 }
 
-            function doCreate(){
-                console.log("in doCreate")
+            function castClearForm() {
+                var form = document.getElementById('castCreateUpdateForm')
+
+
+                form.querySelector('input[name="castid"]').value = ''
+                form.querySelector('input[name="castid"]').disabled = false
+
+                form.querySelector('input[name="castmovieid"]').value = ''
+                form.querySelector('input[name="actor"]').value = ''
+                form.querySelector('input[name="rating"]').value = ''
+            }
+
+            function movieDoCreate(){
                 movie= getMovieFromForm()
                 console.log(movie)
                 $.ajax({
@@ -125,8 +251,8 @@
                     success:function(result){
                         console.log(result) 
                         addMovieToTable(movie)
-                        showDisplay()
-                        clearForm()
+                        movieShowDisplay()
+                        movieClearForm()
 
                     },
                     error:function(xhr,status,error){
@@ -135,12 +261,43 @@
                 })
                
             }
-            function doUpdate(){
+
+            function castDoCreate(){
+                cast= getCastFromForm()
+                console.log(cast)
+                $.ajax({
+                    url:"/cast",
+                    data:JSON.stringify(cast),
+                    method:"POST",
+                    dataType:"JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success:function(result){
+                        console.log(result) 
+                        addCastToTable(cast)
+                        castShowDisplay()
+                        castClearForm()
+
+                    },
+                    error:function(xhr,status,error){
+                        console.log("error"+error)
+                    }
+                })
+               
+            }
+
+            function movieDoUpdate(){
                 movie = getMovieFromForm()
-                updateServer(movie)
+                movieUpdateServer(movie)
                 
             }
-            function updateServer(movie){
+
+            function castDoUpdate(){
+                cast = getCastFromForm()
+                castUpdateServer(cast)
+                
+            }
+
+            function movieUpdateServer(movie){
                $.ajax({
                     url: "/movies/"+movie.movieid,
                     data: JSON.stringify(movie),
@@ -149,9 +306,9 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
                         console.log(result)
-                        updateTableRow(movie)
-                        showDisplay()
-                        clearForm()
+                        movieUpdateTableRow(movie)
+                        movieShowDisplay()
+                        movieClearForm()
 
                     },
                     error: function (xhr, status, error) {
@@ -159,7 +316,28 @@
                     }
                 })
             }
-            function doDelete(thisElem){
+
+            function castUpdateServer(cast){
+               $.ajax({
+                    url: "/cast/"+cast.castid,
+                    data: JSON.stringify(cast),
+                    method: "PUT",
+                    dataType: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log(result)
+                        castUpdateTableRow(cast)
+                        castShowDisplay()
+                        castClearForm()
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("error" + error)
+                    }
+                })
+            }
+
+            function movieDoDelete(thisElem){
                 var tableElement = document.getElementById('movieTable');
                 var rowElement = thisElem.parentNode.parentNode;
                 var index = rowElement.rowIndex;
@@ -177,19 +355,48 @@
                 })
                 
             }
-            function updateTableRow(movie){
+
+            function castDoDelete(thisElem){
+                var tableElement = document.getElementById('castTable');
+                var rowElement = thisElem.parentNode.parentNode;
+                var index = rowElement.rowIndex;
+                castid = rowElement.getAttribute("id");
+                $.ajax({
+                    url:"/cast/"+castid,
+                    method:"DELETE",
+                    dateType:"JSON",
+                    success:function(result){
+                        tableElement.deleteRow(index);
+                    },
+                    error:function(xhr,status,error){
+                        console.log(error)
+                    }
+                })
+                
+            }
+
+            function movieUpdateTableRow(movie){
                 rowElement = document.getElementById(movie.movieid)
                 rowElement.cells[1].firstChild.textContent = movie.title
                 rowElement.cells[2].firstChild.textContent = movie.director
                 rowElement.cells[3].firstChild.textContent = movie.releaseyear
                 rowElement.cells[4].firstChild.textContent = movie.tomatoescore
-                //console.log("updating table")
+
             }
+
+            function castUpdateTableRow(cast){
+                rowElement = document.getElementById(cast.castid)
+                rowElement.cells[1].firstChild.textContent = cast.movieid
+                rowElement.cells[2].firstChild.textContent = cast.actor
+                rowElement.cells[3].firstChild.textContent = cast.rating
+
+            }
+
             function getMovieFromForm(){
-                var form = document.getElementById('createUpdateForm')
+                var form = document.getElementById('movieCreateUpdateForm')
 
                 var movie = {}
-                movie.movieid = form.querySelector('input[name="movieid"]').value
+                movie.movieid = form.querySelector('input[name="moviemovieid"]').value
                 movie.title = form.querySelector('input[name="title"]').value
                 movie.director = form.querySelector('input[name="director"]').value
                 movie.releaseyear = form.querySelector('input[name="releaseyear"]').value
@@ -197,7 +404,20 @@
 
                  return movie
             }
-             function showDisplay() {
+
+            function getCastFromForm(){
+                var form = document.getElementById('castCreateUpdateForm')
+
+                var cast = {}
+                cast.castid = form.querySelector('input[name="castid"]').value
+                cast.movieid = form.querySelector('input[name="castmovieid"]').value
+                cast.actor = form.querySelector('input[name="actor"]').value
+                cast.rating = form.querySelector('input[name="rating"]').value
+
+                 return cast
+            }
+
+             function movieShowDisplay() {
                     // Clears Table ensuring movied is displayed
                     // Adapted from: https://stackoverflow.com/questions/7271490/delete-all-rows-in-an-html-table
                     var tableHeaderRowCount = 1;
@@ -207,13 +427,31 @@
                         table.deleteRow(tableHeaderRowCount);
                     }
             
-                    populateTable()
-                    document.getElementById('display').style.display = "block"
-                    document.getElementById('create-update').style.display = "none"
+                    populateMovieTable()
+                    document.getElementById('movieDisplay').style.display = "block"
+                    document.getElementById('databaseMenu').style.display = "block"
+                    document.getElementById('movie-create-update').style.display = "none"
 
                 }
 
-            function populateTable(){
+                function castShowDisplay() {
+                    // Clears Table ensuring movied is displayed
+                    // Adapted from: https://stackoverflow.com/questions/7271490/delete-all-rows-in-an-html-table
+                    var tableHeaderRowCount = 1;
+                    var table = document.getElementById('castTable');
+                    var rowCount = table.rows.length;
+                    for (var i = tableHeaderRowCount; i < rowCount; i++) {
+                        table.deleteRow(tableHeaderRowCount);
+                    }
+            
+                    populateCastTable()
+                    document.getElementById('castDisplay').style.display = "block"
+                    document.getElementById('databaseMenu').style.display = "block"
+                    document.getElementById('cast-create-update').style.display = "none"
+
+                }
+
+            function populateMovieTable(){
                 //host = window.location.origin
                $.ajax({
                    url:'http://127.0.0.1:5000/movies',
@@ -232,6 +470,47 @@
                })
                
             }
+
+            function populateCastTable(){
+                //host = window.location.origin
+               $.ajax({
+                   url:'http://127.0.0.1:5000/cast',
+                   //url:host+"/cast",
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        for (cast of results){
+                             addCastToTable(cast)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+
+            function addCastToTable(cast){
+                //console.log("working so far")
+                tableElem = document.getElementById("castTable")
+                rowElem = tableElem.insertRow(-1)
+                rowElem.setAttribute("id", cast.castid)
+                cell1 = rowElem.insertCell(0)
+                cell1.innerHTML = cast.castid
+                cell2 = rowElem.insertCell(1)
+                cell2.innerHTML = cast.movieid
+                cell3 = rowElem.insertCell(2)
+                cell3.innerHTML = cast.actor
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = cast.rating
+                cell5 = rowElem.insertCell(4)
+                cell5.innerHTML = '<button onclick="castShowUpdate(this)">Update</button>'
+                cell6 = rowElem.insertCell(5)
+                cell6.innerHTML = '<button onclick="castDoDelete(this)">Delete</button>'
+                 }
+            populateCastTable()
+
             function addMovieToTable(movie){
                 //console.log("working so far")
                 tableElem = document.getElementById("movieTable")
@@ -248,11 +527,11 @@
                 cell5 = rowElem.insertCell(4)
                 cell5.innerHTML = movie.tomatoescore
                 cell6 = rowElem.insertCell(5)
-                cell6.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+                cell6.innerHTML = '<button onclick="movieShowUpdate(this)">Update</button>'
                 cell7 = rowElem.insertCell(6)
-                cell7.innerHTML = '<button onclick="doDelete(this)">Delete</button>'
+                cell7.innerHTML = '<button onclick="movieDoDelete(this)">Delete</button>'
                  }
-            populateTable()
+            populateMovieTable()
         </script>
     </body>
 </html>
