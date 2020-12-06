@@ -1,12 +1,51 @@
-from flask import Flask, url_for, request, redirect, abort, jsonify
+from flask import Flask, url_for, request, redirect, abort, jsonify, session
 from movieDAO import movieDao
 from castDAO import castDao
 
 app = Flask(__name__, static_url_path = '', static_folder = 'staticpages')
 
+# Login Key
+app.secret_key = 'dowline1SecureKey'
+
+# Redirects User to index.html
+#@app.route('/')
+#def home():
+#
+#    if not 'username' in session:
+#        return redirect(url_for('login'))
+#    
+#    return app.send_static_file('index.html')
+
 @app.route('/')
-def index():
-    return "Hello"
+def home():
+    if not 'username' in session:
+        return redirect(url_for('loginPage'))
+    
+    if 'username' in session:
+        return app.send_static_file('index.html')
+
+
+# Redirects User to login.html
+@app.route('/login')
+def loginPage():
+    return app.send_static_file('login.html')
+
+# Update session username
+@app.route('/processlogin/<string:myUser>')
+def proccess_login(myUser):
+    #check credentials
+    #if bad redirect to login page again
+
+    #else
+    session['username']= myUser
+    return redirect(url_for('home'))
+
+# Logout
+@app.route('/logout')
+def logout():
+    session.pop('username',None)
+    return redirect(url_for('home'))
+
 
 # Movie Get All
 @app.route('/movies')

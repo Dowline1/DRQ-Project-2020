@@ -32,8 +32,8 @@
                 </tr>
                 <tr>
                     <td></td><td>
-                        <button id="movie-create-button" onclick="movieDoCreate()">Create</button>     
-                        <button id="movie-update-button" onclick="movieDoUpdate()">Update</button>
+                        <button id="movie-create-button" onclick="movieDoCreate()" class="btn btn-success">Create</button>     
+                        <button id="movie-update-button" onclick="movieDoUpdate()" class="btn btn-warning">Update</button>
                     </td>
                 </tr>
             </table>
@@ -60,21 +60,28 @@
                 </tr>
                 <tr>
                     <td></td><td>
-                        <button id="cast-create-button" onclick="castDoCreate()">Create</button>     
-                        <button id="cast-update-button" onclick="castDoUpdate()">Update</button>
+                        <button id="cast-create-button" onclick="castDoCreate()" class="btn btn-success">Create</button>     
+                        <button id="cast-update-button" onclick="castDoUpdate()" class="btn btn-warning">Update</button>
                     </td>
                 </tr>
             </table>
         </div>
 
         <div id="databaseMenu">
-            <button onclick="showMovies()">Movies Database</button>
-            <button onclick="showCast()">Cast Dastabase</button>
+            User:     <script type="text/javascript">
+
+                var sessionValue = '<%= Session["username"] %>';
+                alert(sessionValue);
+        
+        </script><button onclick="userLogout()">Logout</button>
+            <br>
+            <button onclick="showMovies()" class="btn btn-outline-success">Movies Database</button>
+            <button onclick="showCast()" class="btn btn-outline-info">Cast Dastabase</button>
         </div>
         
         <div id="movieDisplay" style="display:none">
             <h2 id="movieHeader">Movies</h2>
-            <button onClick="movieShowCreate()" id="movieCreateButton">Create Movie</button>
+            <button onClick="movieShowCreate()" id="movieCreateButton" class="btn btn-success">Create Movie</button>
             <table id="movieTable" class="table">
                 <thead id="movieTableHeader" class="thead-dark">
                     <tr>
@@ -87,7 +94,7 @@
 
         <div id="castDisplay" style="display:none">
         <h2 id="castHeader">Cast</h2>
-        <button onClick="castShowCreate()" id="castCreateButton">Create</button>
+        <button onClick="castShowCreate()" id="castCreateButton" class="btn btn-success">Create Cast</button>
         <table id="castTable" class="table">
             <thead class="thead-dark">
                 <tr>
@@ -99,7 +106,16 @@
 
         </div>
 
+
         <script>
+            // Logs User Out
+            function userLogout()
+                {
+                    window.location.href = 'http://127.0.0.1:5000/logout';
+                }
+
+
+
             // Displays only Movie Information
             function showMovies(){
                 document.getElementById('movieDisplay').style.display = "block"
@@ -505,9 +521,9 @@
                 cell4 = rowElem.insertCell(3)
                 cell4.innerHTML = cast.rating
                 cell5 = rowElem.insertCell(4)
-                cell5.innerHTML = '<button onclick="castShowUpdate(this)">Update</button>'
+                cell5.innerHTML = '<button onclick="castShowUpdate(this)" class="btn btn-warning">Update</button>'
                 cell6 = rowElem.insertCell(5)
-                cell6.innerHTML = '<button onclick="castDoDelete(this)">Delete</button>'
+                cell6.innerHTML = '<button onclick="castDoDelete(this)" class="btn btn-danger">Delete</button>'
                  }
             populateCastTable()
 
@@ -527,9 +543,9 @@
                 cell5 = rowElem.insertCell(4)
                 cell5.innerHTML = movie.tomatoescore
                 cell6 = rowElem.insertCell(5)
-                cell6.innerHTML = '<button onclick="movieShowUpdate(this)">Update</button>'
+                cell6.innerHTML = '<button onclick="movieShowUpdate(this)" class="btn btn-warning">Update</button>'
                 cell7 = rowElem.insertCell(6)
-                cell7.innerHTML = '<button onclick="movieDoDelete(this)">Delete</button>'
+                cell7.innerHTML = '<button onclick="movieDoDelete(this)" class="btn btn-danger">Delete</button>'
                  }
             populateMovieTable()
         </script>
