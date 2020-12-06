@@ -6,42 +6,70 @@
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     </head>
-    <body>
-        <div id="movie-create-update" style="display:none">
-            <h2>create-edit</h2>
-            <table id="movieCreateUpdateForm">
-                <tr>
-                    <td>Movie ID</td>
-                    <td><input type="text" name="moviemovieid" id="movieIdInput"></td>
-                </tr>
-                <tr>
-                    <td>Title</td>
-                    <td><input type="text" name="title"></td>
-                </tr>
-                <tr>
-                    <td>Director</td>
-                    <td><input type="text" name="director"></td>
-                </tr>
-                <tr>    
-                    <td>Release Year</td>
-                    <td><input type="number" name="releaseyear"></td>
-                </tr>
-                <tr>    
-                    <td>Tomatoe Score</td>
-                    <td><input type="number" name="tomatoescore"></td>
-                </tr>
-                <tr>
-                    <td></td><td>
-                        <button id="movie-create-button" onclick="movieDoCreate()" class="btn btn-success">Create</button>     
-                        <button id="movie-update-button" onclick="movieDoUpdate()" class="btn btn-warning">Update</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
+    
+    <style>
+        #movie-create-update {
+        margin-top: 15%;
+        }
 
-        <div id="cast-create-update" style="display:none">
-            <h2>create-edit</h2>
-            <table id="castCreateUpdateForm">
+        #cast-create-update {
+        margin-top: 15%;
+        }
+
+        #createDiv{
+            border-radius: 25px;
+            font-family: calibri;
+            width: 20%;
+            height: 30%;
+            border: 2px solid grey;
+            background-color: gainsboro;
+            padding: 15px;
+        }
+
+
+    </style>
+    
+    
+    <body>
+        <div align="center" id="movie-create-update" style="display:none" class="updateForm">
+                <div id="createDiv">
+                <h2 align="center" id="movieCreateUpdateHeader">create-edit</h2>
+                <table align="center" id="movieCreateUpdateForm">
+                    <tr>
+                        <td>Movie ID:</td>
+                        <td><input type="text" name="moviemovieid" id="movieIdInput"></td>
+                    </tr>
+                    <tr>
+                        <td>Title:</td>
+                        <td><input type="text" name="title"></td>
+                    </tr>
+                    <tr>
+                        <td>Director:</td>
+                        <td><input type="text" name="director"></td>
+                    </tr>
+                    <tr>    
+                        <td>Release Year:</td>
+                        <td><input type="number" name="releaseyear"></td>
+                    </tr>
+                    <tr>    
+                        <td>Tomatoe Score:</td>
+                        <td><input type="number" name="tomatoescore"></td>
+                    </tr>
+                    <tr>
+                        <td></td><td>
+                            <button id="movie-create-button" onclick="movieDoCreate()" class="btn btn-success">Create</button>     
+                            <button id="movie-update-button" onclick="movieDoUpdate()" class="btn btn-warning">Update</button>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+        </div>
+        
+
+        <div id="cast-create-update" style="display:none" align="center">
+            <div id="createDiv">
+            <h2 id="castCreateUpdateHeader" align="center">create-edit</h2>
+            <table id="castCreateUpdateForm" align="center">
                 <tr>
                     <td>Cast ID</td>
                     <td><input type="text" name="castid" id="castIdInput"></td>
@@ -65,6 +93,7 @@
                     </td>
                 </tr>
             </table>
+            </div>
         </div>
 
         <div id="databaseMenu">
@@ -120,6 +149,7 @@
             function showMovies(){
                 document.getElementById('movieDisplay').style.display = "block"
                 document.getElementById('castDisplay').style.display = "none"
+                document.getElementById('movieCreateUpdateHeader').innerHTML = "Create Movie"
             }
 
             // Displays only Cast Information
@@ -148,6 +178,7 @@
                 document.getElementById('cast-create-button').style.display = "block"
                 document.getElementById('cast-create-update').style.display = "block"
                 document.getElementById('databaseMenu').style.display = "none"
+                document.getElementById('castCreateUpdateHeader').innerHTML = "Create Cast"
                 
                 // Disables MovieID field and populates Comment in Field
                 var form = document.getElementById('castCreateUpdateForm')
@@ -166,6 +197,7 @@
                 document.getElementById('movie-update-button').style.display = "block"
                 document.getElementById('movie-create-button').style.display = "none"
                 document.getElementById('movie-create-update').style.display = "block"
+                document.getElementById('movieCreateUpdateHeader').innerHTML = "Update Movie"
 
             }
 
@@ -179,6 +211,7 @@
                 document.getElementById('cast-update-button').style.display = "block"
                 document.getElementById('cast-create-button').style.display = "none"
                 document.getElementById('cast-create-update').style.display = "block"
+                document.getElementById('castCreateUpdateHeader').innerHTML = "Update Cast"
 
             }
 
