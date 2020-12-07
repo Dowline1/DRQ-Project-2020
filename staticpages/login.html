@@ -13,6 +13,7 @@
   height: 100vh;
 }
 #login .container #login-row #login-column #login-box {
+  border-radius: 25px;
   margin-top: 120px;
   max-width: 600px;
   height: 320px;
@@ -56,22 +57,13 @@
 </body>
 
 <script>
+    
     function loginUser()
     {
         var user = document.getElementById('username').value
         console.log(user)
         window.location.href = 'http://127.0.0.1:5000/processlogin/'+user;
     }
-
-    function loginUserTwo(){
-                //host = window.location.origin
-               var user = document.getElementById('username').value;
-               $.ajax({
-                   url:'http://127.0.0.1:5000/processlogin/'+user,
-                   method:'GET',
-               })
-            }
-
 
 </script>
 

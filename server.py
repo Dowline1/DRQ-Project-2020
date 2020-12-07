@@ -33,10 +33,7 @@ def loginPage():
 # Update session username
 @app.route('/processlogin/<string:myUser>')
 def proccess_login(myUser):
-    #check credentials
-    #if bad redirect to login page again
 
-    #else
     session['username']= myUser
     return redirect(url_for('home'))
 
@@ -44,7 +41,7 @@ def proccess_login(myUser):
 @app.route('/logout')
 def logout():
     session.pop('username',None)
-    return redirect(url_for('home'))
+    return app.send_static_file('login.html')
 
 
 # Movie Get All

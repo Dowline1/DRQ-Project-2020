@@ -8,6 +8,12 @@
     </head>
     
     <style>
+
+        body {
+            background-image: url('https://cdn.hipwallpaper.com/i/34/81/ltPquX.jpg');
+        }
+
+        
         #movie-create-update {
         margin-top: 15%;
         }
@@ -30,30 +36,30 @@
     </style>
     
     
-    <body>
+<body>
         <div align="center" id="movie-create-update" style="display:none" class="updateForm">
                 <div id="createDiv">
                 <h2 align="center" id="movieCreateUpdateHeader">create-edit</h2>
                 <table align="center" id="movieCreateUpdateForm">
                     <tr>
                         <td>Movie ID:</td>
-                        <td><input type="text" name="moviemovieid" id="movieIdInput"></td>
+                        <td><input type="text" name="moviemovieid" id="movieIdInput" class="form-control form-control-sm"></td>
                     </tr>
                     <tr>
                         <td>Title:</td>
-                        <td><input type="text" name="title"></td>
+                        <td><input type="text" name="title" class="form-control form-control-sm"></td>
                     </tr>
                     <tr>
                         <td>Director:</td>
-                        <td><input type="text" name="director"></td>
+                        <td><input type="text" name="director" class="form-control form-control-sm"></td>
                     </tr>
                     <tr>    
                         <td>Release Year:</td>
-                        <td><input type="number" name="releaseyear"></td>
+                        <td><input type="number" name="releaseyear" class="form-control form-control-sm"></td>
                     </tr>
                     <tr>    
                         <td>Tomatoe Score:</td>
-                        <td><input type="number" name="tomatoescore"></td>
+                        <td><input type="number" name="tomatoescore" class="form-control form-control-sm"></td>
                     </tr>
                     <tr>
                         <td></td><td>
@@ -72,19 +78,19 @@
             <table id="castCreateUpdateForm" align="center">
                 <tr>
                     <td>Cast ID</td>
-                    <td><input type="text" name="castid" id="castIdInput"></td>
+                    <td><input type="text" name="castid" id="castIdInput" class="form-control form-control-sm"></td>
                 </tr>
                 <tr>
                     <td>Movie ID</td>
-                    <td><input type="number" name="castmovieid"></td>
+                    <td><input type="number" name="castmovieid" class="form-control form-control-sm"></td>
                 </tr>
                 <tr>
                     <td>Actor</td>
-                    <td><input type="text" name="actor"></td>
+                    <td><input type="text" name="actor" class="form-control form-control-sm"></td>
                 </tr>
                 <tr>    
                     <td>Rating</td>
-                    <td><input type="number" name="rating"></td>
+                    <td><input type="number" name="rating" class="form-control form-control-sm"></td>
                 </tr>
                 <tr>
                     <td></td><td>
@@ -96,17 +102,16 @@
             </div>
         </div>
 
-        <div id="databaseMenu">
-            User:     <script type="text/javascript">
-
-                var sessionValue = '<%= Session["username"] %>';
-                alert(sessionValue);
-        
-        </script><button onclick="userLogout()">Logout</button>
-            <br>
-            <button onclick="showMovies()" class="btn btn-outline-success">Movies Database</button>
-            <button onclick="showCast()" class="btn btn-outline-info">Cast Dastabase</button>
+        <div id="databaseHeader">
+            <h2 align="center">Data Representation & Querying Project 2020</h2>
         </div>
+
+        <div id="databaseMenu" align="center">
+            <button  onclick="showMovies()" class="btn btn-outline-success">Movies Database</button>
+            <button align="center" onclick="showCast()" class="btn btn-outline-info">Cast Dastabase</button>
+        </div>
+
+
         
         <div id="movieDisplay" style="display:none">
             <h2 id="movieHeader">Movies</h2>
@@ -164,6 +169,7 @@
                 document.getElementById('movie-create-button').style.display = "block"
                 document.getElementById('movie-create-update').style.display = "block"
                 document.getElementById('databaseMenu').style.display = "none"
+                document.getElementById('databaseHeader').style.display = "none"
                 
                 // Disables MovieID field and populates Comment in Field
                 var form = document.getElementById('movieCreateUpdateForm')
@@ -173,12 +179,14 @@
             }
 
             function castShowCreate(){
+                document.getElementById('databaseHeader').style.display = "block"
                 document.getElementById('castDisplay').style.display = "none"
                 document.getElementById('cast-update-button').style.display = "none"
                 document.getElementById('cast-create-button').style.display = "block"
                 document.getElementById('cast-create-update').style.display = "block"
                 document.getElementById('databaseMenu').style.display = "none"
                 document.getElementById('castCreateUpdateHeader').innerHTML = "Create Cast"
+                document.getElementById('databaseHeader').style.display = "none"
                 
                 // Disables MovieID field and populates Comment in Field
                 var form = document.getElementById('castCreateUpdateForm')
@@ -192,6 +200,7 @@
                 movie = readMovieFromRow(rowElement)
                 moviePopulateForm(movie)
 
+                document.getElementById('databaseHeader').style.display = "block"
                 document.getElementById('movieDisplay').style.display = "none"
                 document.getElementById('databaseMenu').style.display = "none"
                 document.getElementById('movie-update-button').style.display = "block"
@@ -477,6 +486,7 @@
                     }
             
                     populateMovieTable()
+                    document.getElementById('databaseHeader').style.display = "block"
                     document.getElementById('movieDisplay').style.display = "block"
                     document.getElementById('databaseMenu').style.display = "block"
                     document.getElementById('movie-create-update').style.display = "none"
@@ -494,6 +504,7 @@
                     }
             
                     populateCastTable()
+                    document.getElementById('databaseHeader').style.display = "block"
                     document.getElementById('castDisplay').style.display = "block"
                     document.getElementById('databaseMenu').style.display = "block"
                     document.getElementById('cast-create-update').style.display = "none"
